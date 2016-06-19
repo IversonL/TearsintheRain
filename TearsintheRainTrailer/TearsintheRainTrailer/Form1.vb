@@ -9,8 +9,8 @@
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         GameLoop.Start()
         AnimationTimer.Start()
-        environment = {Wall1, Wall2, Wall3, Wall4, Wall5, Wall6, Wall7, Wall8, Wall9, Wall10, Wall11}
-        revealArray = {Reveal1, Reveal2, Reveal3}
+        environment = {Wall1, Wall2, Wall4, Wall5, Wall6, Wall8, Wall9, Wall11}
+        revealArray = {Reveal1, Reveal2, Reveal3, Reveal4}
 
         For x As Integer = 0 To revealArray.Length - 1
             revealArray(x).BringToFront()
@@ -41,6 +41,11 @@
     'Handles all keyup events'
     Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         moveing = False
+    End Sub
+
+    'Animation Loop
+    Private Sub AnimationTimer_Tick(sender As Object, e As EventArgs) Handles AnimationTimer.Tick
+        tick += 1
     End Sub
 
     'Game Loop'
@@ -116,9 +121,5 @@
             End If
         End If
 
-    End Sub
-
-    Private Sub AnimationTimer_Tick(sender As Object, e As EventArgs) Handles AnimationTimer.Tick
-        tick += 1
     End Sub
 End Class
