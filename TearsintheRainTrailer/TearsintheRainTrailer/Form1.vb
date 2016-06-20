@@ -4,12 +4,13 @@
     Dim dir As Integer = 0
     Dim moveing As Boolean = False
     Dim tick As Integer = 0
+    Dim PluggedIn = False
 
     'Loads on Startup'
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         GameLoop.Start()
         AnimationTimer.Start()
-        environment = {Wall1, Wall2, Wall4, Wall5, Wall6, Wall8, Wall9, Wall11}
+        environment = {Wall1, Wall2, Wall5, Wall8, Wall9, Wall11, Wall16, Wall17}
         revealArray = {Reveal1, Reveal2, Reveal3, Reveal4}
 
         For x As Integer = 0 To revealArray.Length - 1
@@ -19,23 +20,36 @@
 
     'Handles call Keydown events
     Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-        moveing = True
-        If e.KeyCode = Keys.A Then
-            dir = 1
-            Me.Player.Left -= 10
-        ElseIf e.KeyCode = Keys.W Then
-            dir = 2
-            Me.Player.Top -= 10
-
-        ElseIf e.KeyCode = Keys.D Then
-            dir = 3
-            Me.Player.Left += 10
-
-        ElseIf e.KeyCode = Keys.S Then
-            dir = 4
-            Me.Player.Top += 10
+        If e.KeyCode = Keys.Tab Then
+            If PluggedIn = False Then
+                PluggedIn = True
+            ElseIf PluggedIn = True Then
+                PluggedIn = False
+            End If
         End If
-        Call CollisionDetection()
+        If PluggedIn = False Then
+            moveing = True
+            If e.KeyCode = Keys.A Then
+                dir = 1
+                Me.Player.Left -= 10
+            ElseIf e.KeyCode = Keys.W Then
+                dir = 2
+                Me.Player.Top -= 10
+
+            ElseIf e.KeyCode = Keys.D Then
+                dir = 3
+                Me.Player.Left += 10
+
+            ElseIf e.KeyCode = Keys.S Then
+                dir = 4
+                Me.Player.Top += 10
+            End If
+
+            Call CollisionDetection()
+        ElseIf PluggedIn = True Then
+            Call ConsoleInput(e)
+        End If
+
     End Sub
 
     'Handles all keyup events'
@@ -121,5 +135,13 @@
             End If
         End If
 
+    End Sub
+
+    Sub ConsoleInput(ByRef sender As KeyEventArgs)
+        If sender.KeyCode = Keys.Escape Then
+            Me.lblConsole.Text = Nothing
+        Else
+            Me.lblConsole.Text &= Chr(sender.KeyCode)
+        End If
     End Sub
 End Class
